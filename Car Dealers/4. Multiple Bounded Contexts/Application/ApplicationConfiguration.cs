@@ -15,12 +15,14 @@
             IConfiguration configuration)
             => services
                 .Configure<ApplicationSettings>(
-                    configuration.GetSection(nameof(ApplicationSettings)), 
+                    configuration.GetSection(nameof(ApplicationSettings)),
                     options => options.BindNonPublicProperties = true)
                 .AddAutoMapper(Assembly.GetExecutingAssembly())
                 .AddMediatR(Assembly.GetExecutingAssembly())
                 .AddEventHandlers()
                 .AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+                //.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestLogger<>))
+                //.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
 
         private static IServiceCollection AddEventHandlers(this IServiceCollection services)
             => services

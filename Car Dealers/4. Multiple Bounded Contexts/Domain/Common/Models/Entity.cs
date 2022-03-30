@@ -10,7 +10,22 @@
 
         protected Entity() => this.events = new List<IDomainEvent>();
 
+        private bool versionIncremented;
+
         public TId Id { get; private set; } = default;
+
+        public int Version { get; protected set; }
+
+        protected void IncrementVersion()
+        {
+            if (versionIncremented)
+            {
+                return;
+            }
+
+            Version++;
+            versionIncremented = true;
+        }
 
         public IReadOnlyCollection<IDomainEvent> Events 
             => this.events.ToList().AsReadOnly();
